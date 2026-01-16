@@ -1,0 +1,11 @@
+{
+  "src": [
+    "pages/Splash",
+    "pages/Index",
+    "pages/BirthInput",
+    "pages/LogicModelResult",
+    "pages/StarEcology",
+    "pages/EnvironmentalVariables",
+    "pages/CycleSimulation"
+  ]
+}
