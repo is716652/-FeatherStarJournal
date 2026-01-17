@@ -98,11 +98,18 @@ struct StarsPanorama {
       Column() {
         if (this.selectedStarDetail) {
           Column() {
-            Text(this.selectedStarDetail.full_name)
-              .fontSize(24)
-              .fontWeight(FontWeight.Bold)
-              .fontColor('#D4AF37')
-              .margin({ bottom: 8 })
+            // 星宿名称 + emoji 图标
+            Row() {
+              Text(this.getAnimalEmoji(this.selectedStarDetail.star))
+                .fontSize(32)
+                .margin({ right: 12 })
+              
+              Text(this.selectedStarDetail.full_name)
+                .fontSize(24)
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#D4AF37')
+            }
+            .margin({ bottom: 12 })
             
             Row() {
               Text(`星宿：${this.selectedStarDetail.star}`)
@@ -257,8 +264,8 @@ struct StarsPanorama {
       // 获取星宿对应的禽象
       const animalEmoji = this.getAnimalEmoji(star);
 
-      // 绘制禽象图标（使用文字）
-      ctx.font = isUserStar ? '24px sans-serif' : (isSelected ? '20px sans-serif' : '16px sans-serif');
+      // 绘制禽象图标（使用文字）- 调大字号使其更清晰
+      ctx.font = isUserStar ? '32px sans-serif' : (isSelected ? '28px sans-serif' : '24px sans-serif');
       ctx.fillStyle = color;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -267,7 +274,7 @@ struct StarsPanorama {
       // 用户主星加光晕效果
       if (isUserStar) {
         ctx.beginPath();
-        ctx.arc(x, y, 20, 0, Math.PI * 2);
+        ctx.arc(x, y, 26, 0, Math.PI * 2);
         ctx.strokeStyle = color;
         ctx.lineWidth = 2;
         ctx.globalAlpha = 0.5;
@@ -276,7 +283,7 @@ struct StarsPanorama {
         
         // 再加一圈外围光晕
         ctx.beginPath();
-        ctx.arc(x, y, 28, 0, Math.PI * 2);
+        ctx.arc(x, y, 35, 0, Math.PI * 2);
         ctx.strokeStyle = '#D4AF37';
         ctx.lineWidth = 1;
         ctx.globalAlpha = 0.3;
@@ -287,7 +294,7 @@ struct StarsPanorama {
       // 选中星宿加边框
       if (isSelected) {
         ctx.beginPath();
-        ctx.arc(x, y, 18, 0, Math.PI * 2);
+        ctx.arc(x, y, 22, 0, Math.PI * 2);
         ctx.strokeStyle = '#FFFFFF';
         ctx.lineWidth = 2;
         ctx.stroke();
