@@ -15,7 +15,8 @@ struct Index {
   }
 
   build() {
-    Column() {
+    Scroll() {
+      Column() {
       // 顶部研习进度区域 (游戏化元素)
       Row() {
         Column() {
@@ -121,7 +122,7 @@ struct Index {
             router.pushUrl({ url: 'pages/BirthInput' });
           }
         )
-
+    
         // 流年运势卡片
         this.FunctionCard(
           '周期模拟',
@@ -131,8 +132,8 @@ struct Index {
             router.pushUrl({ url: 'pages/CycleSimulation' });
           }
         )
-
-        // 吞啖查询卡片
+    
+        // 吞啈查询卡片
         this.FunctionCard(
           '宿星生态',
           '研习二十八宿间的生态克制关系逻辑',
@@ -141,7 +142,7 @@ struct Index {
             router.pushUrl({ url: 'pages/StarEcology' });
           }
         )
-
+    
         // 化道环境卡片
         this.FunctionCard(
           '环境变量',
@@ -151,10 +152,19 @@ struct Index {
             router.pushUrl({ url: 'pages/EnvironmentalVariables' });
           }
         )
+    
+        // 星宿全景图卡片
+        this.FunctionCard(
+          '星宿全景',
+          '探索二十八宿轨迹图谱，感受宇宙星象之美',
+          '#2C3E50',
+          () => {
+            router.pushUrl({ url: 'pages/StarsPanorama' });
+          }
+        )
       }
       .width('90%')
-      .margin({ top: 30 })
-      .layoutWeight(1)
+      .margin({ top: 30, bottom: 30 })
 
       // 底部装饰
       Row() {
@@ -168,9 +178,12 @@ struct Index {
       .margin({ bottom: 30 })
     }
     .width('100%')
-    .height('100%')
     .backgroundImage($r('app.media.yanqin_tong_background_vertical'))
     .backgroundImageSize(ImageSize.Cover)
+    }
+    .width('100%')
+    .height('100%')
+    .scrollBar(BarState.Off)
   }
 
   @Builder

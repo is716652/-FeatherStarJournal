@@ -6,6 +6,7 @@
     "pages/LogicModelResult",
     "pages/StarEcology",
     "pages/EnvironmentalVariables",
-    "pages/CycleSimulation"
+    "pages/CycleSimulation",
+    "pages/StarsPanorama"
   ]
 }
