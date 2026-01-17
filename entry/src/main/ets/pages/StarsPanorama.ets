@@ -254,19 +254,32 @@ struct StarsPanorama {
       const isUserStar = star === this.currentUserStar;
       const isSelected = star === this.selectedStar;
 
-      // 绘制星宿点
-      ctx.beginPath();
-      ctx.arc(x, y, isUserStar ? 8 : (isSelected ? 6 : 4), 0, Math.PI * 2);
+      // 获取星宿对应的禽象
+      const animalEmoji = this.getAnimalEmoji(star);
+
+      // 绘制禽象图标（使用文字）
+      ctx.font = isUserStar ? '24px sans-serif' : (isSelected ? '20px sans-serif' : '16px sans-serif');
       ctx.fillStyle = color;
-      ctx.fill();
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(animalEmoji, x, y);
 
       // 用户主星加光晕效果
       if (isUserStar) {
         ctx.beginPath();
-        ctx.arc(x, y, 12, 0, Math.PI * 2);
+        ctx.arc(x, y, 20, 0, Math.PI * 2);
         ctx.strokeStyle = color;
         ctx.lineWidth = 2;
         ctx.globalAlpha = 0.5;
+        ctx.stroke();
+        ctx.globalAlpha = 1.0;
+        
+        // 再加一圈外围光晕
+        ctx.beginPath();
+        ctx.arc(x, y, 28, 0, Math.PI * 2);
+        ctx.strokeStyle = '#D4AF37';
+        ctx.lineWidth = 1;
+        ctx.globalAlpha = 0.3;
         ctx.stroke();
         ctx.globalAlpha = 1.0;
       }
@@ -274,20 +287,20 @@ struct StarsPanorama {
       // 选中星宿加边框
       if (isSelected) {
         ctx.beginPath();
-        ctx.arc(x, y, 10, 0, Math.PI * 2);
+        ctx.arc(x, y, 18, 0, Math.PI * 2);
         ctx.strokeStyle = '#FFFFFF';
         ctx.lineWidth = 2;
         ctx.stroke();
       }
 
       // 绘制星宿名称
-      ctx.font = '12px sans-serif';
+      ctx.font = '11px sans-serif';
       ctx.fillStyle = isUserStar ? '#D4AF37' : '#FFFFFF';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       
       // 计算文字偏移（让文字在圆外侧）
-      const textRadius = radius + 20;
+      const textRadius = radius + 25;
       const textX = centerX + textRadius * Math.cos(angle);
       const textY = centerY + textRadius * Math.sin(angle);
       
@@ -321,6 +334,53 @@ struct StarsPanorama {
     if (index < 14) return this.colors.north;    // 北方玄武
     if (index < 21) return this.colors.west;     // 西方白虎
     return this.colors.south;                     // 南方朱雀
+  }
+
+  /**
+   * 获取禽象 Emoji 图标
+   * 根据星宿名称返回对应的禽类 emoji
+   */
+  private getAnimalEmoji(starName: string): string {
+    // 28星宿对应的禽象 emoji 映射
+    const animalMap: Record<string, string> = {
+      // 东方青龙七宿
+      '角': '🐊',  // 蛟
+      '亢': '🐉',  // 龙
+      '氐': '🦝',  // 狢
+      '房': '🐇',  // 兔
+      '心': '🦊',  // 狐
+      '尾': '🐅',  // 虎
+      '箕': '🐆',  // 豹
+      
+      // 北方玄武七宿
+      '斗': '🦄',  // 麒(狴)
+      '牛': '🐂',  // 牛
+      '女': '🦇',  // 蝠
+      '虚': '🐁',  // 鼠
+      '危': '🐦',  // 燕
+      '室': '🐗',  // 猪
+      '壁': '🦔',  // 豪猪(猪)
+      
+      // 西方白虎七宿
+      '夔': '🐺',  // 狼
+      '娄': '🐕',  // 狗
+      '胃': '🦉',  // 鸡
+      '昴': '🐓',  // 鸡
+      '毕': '🐦',  // 乌鸦(鸡)
+      '觜': '🐵',  // 猴
+      '参': '🦍',  // 猿
+      
+      // 南方朱雀七宿
+      '井': '🦌',  // 犴
+      '鬼': '🐑',  // 羊
+      '柳': '🦌',  // 鹿
+      '星': '🐴',  // 马
+      '张': '🦌',  // 鹿
+      '翼': '🐍',  // 蛇
+      '轸': '🐛'   // 蚓
+    };
+    
+    return animalMap[starName] || '⭐';  // 默认返回星星
   }
 
   /**
