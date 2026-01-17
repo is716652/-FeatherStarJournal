@@ -12,7 +12,8 @@ struct CycleSimulation {
     animal: '月狐',
     element: '月',
     position: 4,
-    category: '东方青龙垣'
+    category: '东方青龙垣',
+    fullName: '心月狐'
   };
 
   private logicEngine: YanqinLogicEngine = YanqinLogicEngine.getInstance();
@@ -52,7 +53,7 @@ struct CycleSimulation {
               Text('初始时空模型：')
                 .fontSize(14)
                 .fontColor('#E8E8E8')
-              Text(`${this.mockUserStar.name}宿 (${this.mockUserStar.animal})`)
+              Text(`${this.mockUserStar.fullName}`)
                 .fontSize(14)
                 .fontColor('#D4AF37')
             }
@@ -160,8 +161,8 @@ struct CycleSimulation {
     .backgroundImageSize(ImageSize.Cover)
   }
 
-  private runSimulation() {
-    const result = this.logicEngine.simulateCycle(this.mockUserStar, this.simulationYear);
+  private async runSimulation() {
+    const result = await this.logicEngine.simulateCycle(this.mockUserStar, this.simulationYear);
     this.energyFlux = result.energyFlux;
     this.feedback = result.feedback;
   }

@@ -84,18 +84,48 @@ struct LogicModelResult {
           this.drawStarChart();
         })
       
-      Row() {
-        Text(`当前主星：${this.result?.originStar.name}宿`)
-          .fontSize(14)
-          .fontColor('#FFFFFF')
-        Blank()
-        Text(`所属星垣：${this.result?.originStar.category}`)
-          .fontSize(14)
-          .fontColor('#E8E8E8')
-          .opacity(0.8)
+      // 主星、胎星、命星展示
+      Column() {
+        Row() {
+          Text(`主星：${this.result?.originStar.fullName}`)
+            .fontSize(14)
+            .fontColor('#D4AF37')
+            .fontWeight(FontWeight.Bold)
+          Blank()
+          Text(`位置 ${this.result?.originStar.position! + 1}`)
+            .fontSize(12)
+            .fontColor('#E8E8E8')
+        }
+        .width('100%')
+        .margin({ bottom: 8 })
+        
+        Row() {
+          Text(`胎星：${this.result?.fetalStar.fullName}`)
+            .fontSize(13)
+            .fontColor('#FFFFFF')
+          Blank()
+          Text(`位置 ${this.result?.fetalStar.position! + 1}`)
+            .fontSize(12)
+            .fontColor('#E8E8E8')
+        }
+        .width('100%')
+        .margin({ bottom: 8 })
+        
+        Row() {
+          Text(`命星：${this.result?.destinyStar.fullName}`)
+            .fontSize(13)
+            .fontColor('#FFFFFF')
+          Blank()
+          Text(`位置 ${this.result?.destinyStar.position! + 1}`)
+            .fontSize(12)
+            .fontColor('#E8E8E8')
+        }
+        .width('100%')
       }
-      .width('100%')
-      .margin({ top: 12 })
+      .margin({ top: 16 })
+      .padding(12)
+      .backgroundColor('rgba(255, 255, 255, 0.05)')
+      .borderRadius(8)
     }
     .width('100%')
     .padding(20)
@@ -148,6 +178,24 @@ struct LogicModelResult {
         .fontSize(14)
         .fontColor('#E8E8E8')
         .lineHeight(22)
+        .margin({ bottom: 16 })
+      
+      // 生态克制状态
+      Column() {
+        Text('生态克制状态')
+          .fontSize(14)
+          .fontColor('#D4AF37')
+          .margin({ bottom: 8 })
+        
+        Text(this.result?.ecologyStatus || '')
+          .fontSize(13)
+          .fontColor('#E8E8E8')
+          .lineHeight(20)
+      }
+      .width('100%')
+      .padding(12)
+      .backgroundColor('rgba(255, 255, 255, 0.05)')
+      .borderRadius(8)
     }
     .width('100%')
     .padding(20)

@@ -6,10 +6,19 @@ import { YanqinLogicEngine } from '../utils/YanqinLogicEngine';
 struct EnvironmentalVariables {
   @State selectedGan: string = '甲';
   @State selectedZhi: string = '子';
+  @State transformationText: string = '加载中...';
   private logicEngine: YanqinLogicEngine = YanqinLogicEngine.getInstance();
   
   private gans: string[] = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
-  private zhis: string[] = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+  private zhis: string[] = ['子', '丑', '寅', '卥', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+
+  async aboutToAppear() {
+    await this.loadTransformationData();
+  }
+
+  private async loadTransformationData() {
+    this.transformationText = await this.logicEngine.getEnvironmentalTransformation(this.selectedGan, this.selectedZhi);
+  }
 
   build() {
     Column() {
@@ -55,7 +64,10 @@ struct EnvironmentalVariables {
                       .backgroundColor(this.selectedGan === gan ? '#D4AF37' : 'rgba(255, 255, 255, 0.1)')
                       .borderRadius(20)
                       .textAlign(TextAlign.Center)
-                      .onClick(() => this.selectedGan = gan)
+                      .onClick(async () => {
+                        this.selectedGan = gan;
+                        await this.loadTransformationData();
+                      })
                   }
                   .margin({ bottom: 8 })
                 })
@@ -77,7 +89,10 @@ struct EnvironmentalVariables {
                       .backgroundColor(this.selectedZhi === zhi ? '#D4AF37' : 'rgba(255, 255, 255, 0.1)')
                       .borderRadius(8)
                       .textAlign(TextAlign.Center)
-                      .onClick(() => this.selectedZhi = zhi)
+                      .onClick(async () => {
+                        this.selectedZhi = zhi;
+                        await this.loadTransformationData();
+                      })
                   }
                 })
               }
@@ -103,7 +118,7 @@ struct EnvironmentalVariables {
               .fontWeight(FontWeight.Bold)
               .margin({ bottom: 16 })
 
-            Text(this.logicEngine.getEnvironmentalTransformation(this.selectedGan, this.selectedZhi))
+            Text(this.transformationText)
               .fontSize(15)
               .fontColor('#FFFFFF')
               .lineHeight(24)

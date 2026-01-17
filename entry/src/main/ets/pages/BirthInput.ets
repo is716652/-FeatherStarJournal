@@ -97,10 +97,10 @@ struct BirthInput {
             .backgroundColor('#D4AF37')
             .borderRadius(25)
             .margin({ top: 40, bottom: 30 })
-            .onClick(() => {
+            .onClick(async () => {
               if (this.currentDateData) {
-                // 执行推演逻辑
-                const result = this.logicEngine.deduce(this.currentDateData, this.selectedHour);
+                // 执行推演逻辑 (异步)
+                const result = await this.logicEngine.deduce(this.currentDateData, this.selectedHour);
                 // 跳转到结果页并传递推演结果
                 router.pushUrl({
                   url: 'pages/LogicModelResult',

@@ -6,6 +6,7 @@ import { AchievementManager } from '../utils/AchievementManager';
 @Component
 struct StarEcology {
   @State selectedStar: string = '角';
+  @State ecologyRelations: string[] = [];
   private logicEngine: YanqinLogicEngine = YanqinLogicEngine.getInstance();
   private achievementManager: AchievementManager = AchievementManager.getInstance();
   private stars: string[] = [
@@ -14,6 +15,15 @@ struct StarEcology {
     '奎', '娄', '胃', '昴', '毕', '觜', '参',
     '井', '鬼', '柳', '星', '张', '翼', '轸'
   ];
+
+  async aboutToAppear() {
+    // 初始加载默认星宿的生态关系
+    await this.loadEcologyData();
+  }
+
+  private async loadEcologyData() {
+    this.ecologyRelations = await this.logicEngine.getEcologyRelation(this.selectedStar);
+  }
 
   build() {
     Column() {
@@ -57,9 +67,10 @@ struct StarEcology {
                     .backgroundColor(this.selectedStar === star ? '#D4AF37' : '#FFFFFF')
                     .borderRadius(8)
                     .textAlign(TextAlign.Center)
-                    .onClick(() => {
+                    .onClick(async () => {
                       this.selectedStar = star;
                       this.achievementManager.unlockStar(star);
+                      await this.loadEcologyData();
                     })
                 }
               })
@@ -90,7 +101,7 @@ struct StarEcology {
                   .fontSize(12)
                   .fontColor('#E8E8E8')
                   .margin({ bottom: 8 })
-                ForEach(this.logicEngine.getEcologyRelation(this.selectedStar), (rel: string) => {
+                ForEach(this.ecologyRelations, (rel: string) => {
                   if (rel.startsWith('吞')) {
                     Text(rel.split('：')[1])
                       .fontSize(16)
@@ -115,7 +126,7 @@ struct StarEcology {
                   .fontSize(12)
                   .fontColor('#E8E8E8')
                   .margin({ bottom: 8 })
-                ForEach(this.logicEngine.getEcologyRelation(this.selectedStar), (rel: string) => {
+                ForEach(this.ecologyRelations, (rel: string) => {
                   if (rel.startsWith('啖')) {
                     Text(rel.split('：')[1])
                       .fontSize(16)
